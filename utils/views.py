@@ -9,6 +9,7 @@ import utils.const
 from utils.api import CSRFExemptAPIView
 from utils.models import ImageUploadForm
 from utils.shortcuts import rand_str
+from tasks import get_img_size
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +49,7 @@ class ImageUploadAPIView(CSRFExemptAPIView):
         "msg": utils.const.IMAGE_UPLOAD_SERVER_ERROR
       })
 
+    get_img_size.delay(imgFile.name)
     return self.response({
       "success": True,
       "msg": utils.const.IMAGE_UPLOAD_SUCCESS

@@ -1,3 +1,4 @@
 Django==1.11.11
 djangorestframework
-
+celery
+django-redis

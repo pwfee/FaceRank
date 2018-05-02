@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webapp',
+    'utils',
 ]
 
 MIDDLEWARE = [
@@ -166,3 +167,19 @@ LOGGING = {
         },
     },
 }
+
+
+# REDIS CONF
+
+REDIS_CONF = {
+    "host": "127.0.0.1",
+    "port": "6379"
+}
+
+REDIS_URL = "redis://%s:%s" % (REDIS_CONF["host"], REDIS_CONF["port"])
+
+
+# CELERY
+
+CELERY_RESULT_BACKEND = REDIS_URL + "/3"
+BROKER_URL = REDIS_URL + "/4"
