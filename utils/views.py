@@ -4,6 +4,7 @@ from django.conf import settings
 
 import logging
 import os
+import utils.const
 
 from utils.api import CSRFExemptAPIView
 from utils.models import ImageUploadForm
@@ -22,7 +23,7 @@ class ImageUploadAPIView(CSRFExemptAPIView):
     else:
       return self.response({
         "success": False,
-        "msg": "Upload failed",
+        "msg": utils.const.IMAGE_UPLOAD_INVALID,
         "file_path": ""
       })
 
@@ -30,7 +31,7 @@ class ImageUploadAPIView(CSRFExemptAPIView):
     if suffix not in [".gif", ".jpg", ".jpeg", ".bmp", ".png"]:
       return self.response({
         "success": False,
-        "msg": "Unsupported file format",
+        "msg": utils.const.IMAGE_UPLOAD_UNSUPPORTED_FORMAT,
         "file_path": ""
       })
 
@@ -44,12 +45,12 @@ class ImageUploadAPIView(CSRFExemptAPIView):
       logger.error(e)
       return self.response({
         "success": True,
-        "msg": "Upload Error"
+        "msg": utils.const.IMAGE_UPLOAD_SERVER_ERROR
       })
-    
+
     return self.response({
       "success": True,
-      "msg": "Success"
+      "msg": utils.const.IMAGE_UPLOAD_SUCCESS
     })
 
 
