@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import os
 from django.conf import settings
-from django.shortcuts import render
+
+import logging
+import os
 
 from utils.api import CSRFExemptAPIView
-from .models import ImageUploadForm
-# Create your views here.
+from utils.models import ImageUploadForm
 from utils.shortcuts import rand_str
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +18,7 @@ class ImageUploadAPIView(CSRFExemptAPIView):
   def post(self, request):
     form = ImageUploadForm(request.POST, request.FILES)
     if form.is_valid():
-      img = form.cleaned_data["image"]
+      img = form. cleaned_data["image"]
     else:
       return self.response({
         "success": False,
@@ -41,15 +40,13 @@ class ImageUploadAPIView(CSRFExemptAPIView):
       with open(os.path.join(settings.UPLOAD_DIR, img_name), "wb") as imgFile:
         for chunk in img:
           imgFile.write(chunk)
-
     except IOError as e:
       logger.error(e)
-      print e
       return self.response({
         "success": True,
         "msg": "Upload Error"
       })
-
+    
     return self.response({
       "success": True,
       "msg": "Success"

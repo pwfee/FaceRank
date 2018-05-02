@@ -118,14 +118,51 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 STATIC_URL = '/public/'
 
 UPLOAD_PREFIX = "/public/upload"
-
 UPLOAD_DIR = BASE_DIR + UPLOAD_PREFIX
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "public")]
+
+
+# Logging settings
+
+LOGGING_DIR = os.path.join(BASE_DIR, "log")
+LOGGING_FILE_PATH = os.path.join(LOGGING_DIR, "facerank.log")
+
+if not os.path.exists(LOGGING_DIR):
+    os.mkdir(LOGGING_DIR)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': LOGGING_FILE_PATH,
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        }
+    },
+    'loggers': {
+        '': {
+          'handlers': ['file', 'console'],
+          'level': 'WARNING',
+          'propagate': True,
+        },
+    },
+}
