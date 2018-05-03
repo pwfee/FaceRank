@@ -49,6 +49,9 @@ class ImageUploadAPIView(CSRFExemptAPIView):
         "msg": utils.const.IMAGE_UPLOAD_SERVER_ERROR
       })
 
+    # 保存照片上传信息
+    utils.models.ImageModel.objects.get_or_create(file_name=imgFile.name)
+
     get_img_size.delay(imgFile.name)
     return self.response({
       "success": True,
