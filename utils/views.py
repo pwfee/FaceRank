@@ -6,10 +6,10 @@ import logging
 import os
 import utils.const
 
+from rater.tasks import face_detect
 from utils.api import CSRFExemptAPIView
 from utils.models import ImageUploadForm
 from utils.shortcuts import rand_str
-from tasks import get_img_size
 
 logger = logging.getLogger(__name__)
 
@@ -50,9 +50,9 @@ class ImageUploadAPIView(CSRFExemptAPIView):
       })
 
     # 保存照片上传信息
-    utils.models.ImageModel.objects.get_or_create(file_name=imgFile.name)
+    image, _ = utils.models.ImageModel.objects.get_or_create(file_name=imgFile.name)
 
-    get_img_size.delay(imgFile.name)
+    face_detect.delay(image.id)
     return self.response({
       "success": True,
       "msg": utils.const.IMAGE_UPLOAD_SUCCESS

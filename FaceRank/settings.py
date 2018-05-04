@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webapp',
     'utils',
+    'rater',
 ]
 
 MIDDLEWARE = [
@@ -119,10 +120,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/public/'
+PUBLIC_URL = '/public/'
+STATIC_URL = '/static/'
 
-UPLOAD_PREFIX = "/public/upload"
-UPLOAD_DIR = BASE_DIR + UPLOAD_PREFIX
+UPLOAD_DIR = BASE_DIR + PUBLIC_URL + "upload"
+MODEL_DIR = BASE_DIR + STATIC_URL + "models"
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "public")]
 
