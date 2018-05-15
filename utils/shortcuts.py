@@ -3,11 +3,18 @@
 import os
 import re
 import datetime
+from math import pow, sqrt
 import random
 from base64 import b64encode
 from io import BytesIO
 
 from django.utils.crypto import get_random_string
+
+
+class Point2D:
+  def __init__(self, x_init=0, y_init=0):
+    self.x = x_init
+    self.y = y_init
 
 
 def rand_str(length=32, type="lower_hex"):
@@ -29,3 +36,14 @@ def rand_str(length=32, type="lower_hex"):
   else:
     return random.choice("123456789") + get_random_string(length - 1,
                                                           allowed_chars="0123456789")
+
+
+def cacl_distance(p1, p2):
+  return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2))
+
+
+def cacl_mid_point(p1, p2):
+  res_mid_point = Point2D()
+  res_mid_point.x = (p1.x + p2.x) / 2
+  res_mid_point.y = (p1.y + p2.y) / 2
+  return res_mid_point
