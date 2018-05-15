@@ -54,8 +54,13 @@ class ImageUploadAPIView(CSRFExemptAPIView):
 
     face_detect.delay(image.id)
     return self.response({
-      "success": True,
-      "msg": utils.const.IMAGE_UPLOAD_SUCCESS
+      "files": [{
+        "success": True,
+        "name": img_name,
+        "msg": utils.const.IMAGE_UPLOAD_SUCCESS,
+        "url": "http://" + request.get_host() + "/static/upload/" + img_name,
+        "thumbnailUrl": "http://" + request.get_host() + "/static/upload/" + img_name
+      }]
     })
 
 
