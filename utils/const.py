@@ -13,8 +13,10 @@ LANDMARK_PREDICTOR_MODEL_PATH = os.path.join(settings.MODEL_DIR,
                                              LANDMARK_PREDICTOR_MODEL_NAME)
 
 # FACE_DETECT
-FACE_NOT_FOUND = 'face_not_found'
-FOUND_TOO_MANY_FACES = 'found_too_many_faces'
+FACE_NOT_FOUND = 0
+SINGLE_FACE_FOUND = 1
+FOUND_TOO_MANY_FACES = 2
+JUDGE_INNER_ERROR = 3
 
 
 # FACE_LAND_MARK_NUM
