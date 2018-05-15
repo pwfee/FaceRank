@@ -120,13 +120,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-PUBLIC_URL = '/public/'
 STATIC_URL = '/static/'
 
-UPLOAD_DIR = BASE_DIR + PUBLIC_URL + "upload"
+UPLOAD_DIR = BASE_DIR + STATIC_URL + "upload"
 MODEL_DIR = BASE_DIR + STATIC_URL + "models"
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "public")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
 # Logging settings

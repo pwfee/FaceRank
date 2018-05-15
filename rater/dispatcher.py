@@ -11,7 +11,7 @@ from utils.const import *
 class RaterDispatcher:
   def __init__(self, _img_id):
     self.image = ImageModel.objects.get(id=_img_id)
-    self.img_path = self.image.file_name
+    self.img_path = os.path.join(settings.UPLOAD_DIR, self.image.file_name)
     self.landmark_predictor = dlib.shape_predictor(
       utils.const.LANDMARK_PREDICTOR_MODEL_PATH)
 

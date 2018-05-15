@@ -50,7 +50,7 @@ class ImageUploadAPIView(CSRFExemptAPIView):
       })
 
     # 保存照片上传信息
-    image, _ = utils.models.ImageModel.objects.get_or_create(file_name=imgFile.name)
+    image, _ = utils.models.ImageModel.objects.get_or_create(file_name=img_name)
 
     face_detect.delay(image.id)
     return self.response({
