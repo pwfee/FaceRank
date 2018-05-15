@@ -1,5 +1,5 @@
-# Public Dir
-public/
+# Static Image  Dir
+static/upload/
 
 # Pycharm
 .idea/
