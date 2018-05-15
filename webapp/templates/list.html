@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}<title>RankList-FaceRank-Beta</title>{% endblock %}
+
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Age ± </th>
+                <th>Gender</th>
+                <th>Race</th>
+                <th>Glass</th>
+                <th>Smile_Index</th>
+                <th>Point</th>
+                <th>Rank (Total:{{ all }})</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for face in faces %}
+            <tr>
+                <td><a href="../face/{{ face.image_id }}"> {{ face.image_id }} </a></td>
+                <td>{{ face.age  }} ± {{ face.age_range }}</td>
+                <td>
+                    {% if face.gender == 1 %} Male
+                    {% else %} Female
+                    {% endif %}
+                    ({{ face.gender_confidence }} %)
+                </td>
+                <td>
+                    {% if face.race == 1 %} Asian
+                    {% elif face.race == 2 %} White
+                    {% else %} Black
+                    {% endif %}
+                    ({{ face.race_confidence }} %)
+                </td>
+                <td>
+                    {% if face.glass == 1 %} Yes
+                    {% else %} No
+                    {% endif %}
+                    ({{ face.glass_confidence }} %)
+                </td>
+                <td>{{ face.smiling }}</td>
+                <td>{{ face.face_score }}</td>
+                <td>{{ forloop.counter }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <div style="text-align: left">
+         <span>Total {{ faces.paginator.count }}</span> info, <span>{{ faces.paginator.num_pages }}</span> pages
+    </div>
+
+    <div style="text-align: right">
+        <ul class="pagination">
+                {% if faces.has_previous %}
+                <li><a href="?page={{ faces.previous_page_number }}&limit={{ limit }}">Previous</a></li>
+                {% endif %}
+                <li><a href="?page=1&limit={{ limit }}">First</a></li>
+        {% for page_number in page_range %}
+            {% ifequal page_number  faces.number %}
+                <li class="active"><a href="?page={{ page_number }}&limit={{ limit }}">{{ page_number }}</a></li>
+            {% else %}
+                <li><a href="?page={{ page_number }}&limit={{ limit }}">{{ page_number }}</a></li>
+            {% endifequal %}
+        {% endfor %}
+                <li><a href="?page={{ faces.paginator.num_pages }}&limit={{ limit }}">Last</a></li>
+                {% if faces.has_next %}
+                <li><a href="?page={{ faces.next_page_number }}&limit={{ limit }}">Next</a></li>
+                {% endif %}
+        </ul>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}<title xmlns="http://www.w3.org/1999/html">ID-{{ image.id }}-FaceRank-Beta</title>{% endblock %}
+
+{% block body %}
+            <div class="alert alert-success" role="alert">The images only use to collect facial data, Please do not use in commercial(other) ways!!!</div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Image #{{ image.id }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div name="image" style="text-align:center;"><img src="/static/upload/{{ image.file_name }}" height="384" width="288" class="img-thumbnail"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Image - Info</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="progress">
+                                {% if face.face_score > 80 %}
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                    {{ face.face_score }}
+                                </div>
+                                {% elif face.face_score > 70 %}
+                                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                    {{ face.face_score }}
+                                </div>
+                                {% else %}
+                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                    {{ face.face_score }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <table class="table table-hover">
+                              <tr>
+                                  <td><strong>Rank</strong></td>
+                                  <td><strong>{{ rank }} / {{ count }}</strong></td>
+                              </tr>
+                              <tr>
+                                  <td>Age</td>
+                                  <td>{{ face.age }} ± {{ face.age_range }}</td>
+                              </tr>
+                              <tr>
+                                  <td>Gender</td>
+                                  <td>{% if face.gender == 0 %}Female{% else %}Male{% endif %} ({{ face.gender_confidence }} %)</td>
+                              </tr>
+                              <tr>
+                                  <td>Glass</td>
+                                  <td>{% if face.glass == 0 %}No{% else %}Yes{% endif %} ({{ face.glass_confidence }} %)</td>
+                              </tr>
+                              <tr>
+                                  <td>Race</td>
+                                  <td>{% if face.race == 1 %}Asian{% elif face.race == 2 %}White{% else %}Black{% endif %} ({{ face.race_confidence }} %)</td>
+                              </tr>
+                              <tr>
+                                  <td>Simle Index</td>
+                                  <td>{{ face.smiling }}</td>
+                              </tr>
+                            </table>
+
+                            <div class="btn-group btn-group-justified">
+                                <div class="btn-group">
+                                    <a type="button" class="btn btn-primary" href="/face/json/{{ face.name }}">Face-Info</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a type="button" class="btn btn-info" href="/face/json/person/{{ face.name }}">Personal-Info</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Radar Comparison</h3>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="myChart" width="10" height="10"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+{% block js%}
+        <script>
+            var ctx = document.getElementById("myChart");
+            var data = {
+                labels: ["Age", "smiling", "Age_range"],
+                datasets: [
+                    {
+                        label: "Average Info",
+                        backgroundColor: "rgba(179,181,198,0.2)",
+                        borderColor: "rgba(179,181,198,1)",
+                        pointBackgroundColor: "rgba(179,181,198,1)",
+                        pointBorderColor: "#fff",
+                        pointHoverBackgroundColor: "#fff",
+                        pointHoverBorderColor: "rgba(179,181,198,1)",
+                        data: [{{ face.age }}, {{ face.smiling }}, {{ face.age_range }}]
+                    },
+                    {
+                        label: "Personal Info",
+                        backgroundColor: "rgba(255,99,132,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        pointBackgroundColor: "rgba(255,99,132,1)",
+                        pointBorderColor: "#fff",
+                        pointHoverBackgroundColor: "#fff",
+                        pointHoverBorderColor: "rgba(255,99,132,1)",
+                        data: [{{ age_avg }}, {{ smiling_avg }}, {{ age_range_avg }}]
+                    }
+                ]
+            };
+            new Chart(ctx, {
+                type: "radar",
+                data: data,
+                options: {
+                        scale: {
+                            reverse: true,
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                }
+            });
+        </script>
+{% endblock %}
+

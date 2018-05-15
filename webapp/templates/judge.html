@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}<title>Judge-FaceRank-Beta</title>{% endblock %}
+{% block body %}
+<body>
+<form action="/api/upload_image" enctype="multipart/form-data" method="post">
+    <p>
+    Please specify a file, or a set of files:<br>
+    <input type="file" name="image" size="40">
+    </p>
+    <div>
+    <input type="submit" value="Send">
+    </div>
+</form>
+</body>
+{% endblock %}
