@@ -22,7 +22,7 @@ def webapp_judge(request):
 def webapp_face_list(request):
   page = request.GET.get('page', '1')
   limit = request.GET.get('limit', '20')
-  faces = FaceInfo.objects.all().order_by('-face_score')
+  faces = FaceInfo.objects.all().order_by('-id')
   _all = FaceInfo.objects.all().count()
   paginator = Paginator(faces, limit)
 
