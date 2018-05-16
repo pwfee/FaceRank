@@ -23,15 +23,15 @@
                             <div class="progress">
                               {% if fpp_info %}
                                 {% if fpp_info.beauty > 80 %}
-                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ fpp_info.beauty }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ fpp_info.beauty }}%">
                                     {{ fpp_info.beauty | floatformat:"2" }} / 100.0
                                 </div>
                                 {% elif fpp_info.beauty > 70 %}
-                                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ fpp_info.beauty }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ fpp_info.beauty }}%">
                                     {{ fpp_info.beauty | floatformat:"2" }} / 100.0
                                 </div>
                                 {% else %}
-                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{ fpp_info.beauty }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ fpp_info.beauty }}%">
                                     {{ fpp_info.beauty | floatformat:"2" }} / 100.0
                                 </div>
                                 {% endif %}
