@@ -71,7 +71,13 @@ class RaterDispatcher:
     deduction += fabs(d5 - d1)
 
     face_info = FaceInfo(image=self.image)
-    face_info.face_score = init_score - deduction + 20
+    final_score = init_score - deduction + 20
+
+    if final_score > 100:
+      face_info.face_score = 100
+    else:
+      face_info.face_score = final_score
+
     face_info.save()
 
   def facial_processor(self, img, shape):
