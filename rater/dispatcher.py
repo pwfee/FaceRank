@@ -3,7 +3,8 @@ import cv2
 import dlib
 import utils.const
 from math import fabs
-from utils.models import ImageModel, FaceInfo
+from utils.fpp_api import fpp_detect
+from utils.models import ImageModel, FaceInfo, FacePlusPlusInfo
 from utils.shortcuts import cacl_mid_point, cacl_distance
 from utils.const import *
 
@@ -71,3 +72,34 @@ class RaterDispatcher:
     face_info = FaceInfo(image=self.image)
     face_info.face_score = init_score - deduction + 20
     face_info.save()
+
+
+class FacePlusPlusRaterDispatcher:
+  def __init__(self, _img_id):
+    self.image = ImageModel.objects.get(id=_img_id)
+    self.img_path = os.path.join(settings.UPLOAD_DIR, self.image.file_name)
+
+  def fpp_detector(self):
+    detect_res = fpp_detect(self.img_path)
+    detect_json = detect_res.json()
+
+    try:
+      face_attr = detect_json['faces'][0]['attributes']
+      self.facial_rater(face_attr)
+    except:
+      print "Error"
+
+  def facial_rater(self, face_attr):
+    female_score = face_attr['beauty']['female_score']
+    male_score = face_attr['beauty']['male_score']
+    gender = 1 if face_attr['gender']['value'] == 'Male' else 0
+    age = face_attr['age']['value']
+    smile = face_attr['smile']['value']
+
+    fpp_face = FacePlusPlusInfo(image=self.image)
+    fpp_face.beauty_female_score = female_score
+    fpp_face.beauty_male_score = male_score
+    fpp_face.gender = gender
+    fpp_face.age = age
+    fpp_face.smile = smile
+    fpp_face.save()

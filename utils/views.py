@@ -6,7 +6,7 @@ import logging
 import os
 import utils.const
 
-from rater.tasks import face_detect
+from rater.tasks import face_detect_task, face_plus_plus_detect_task
 from utils.api import CSRFExemptAPIView
 from utils.models import ImageUploadForm
 from utils.shortcuts import rand_str
@@ -52,7 +52,12 @@ class ImageUploadAPIView(CSRFExemptAPIView):
     # 保存照片上传信息
     image, _ = utils.models.ImageModel.objects.get_or_create(file_name=img_name)
 
-    face_detect.delay(image.id)
+    face_detect_task.delay(image.id)
+
+    # 若启用 FACE_PLUS_PLUS 接口
+    if utils.const.FACE_PLUS_PLUS_ENABLE:
+      face_plus_plus_detect_task.delay(image.id)
+
     return self.response({
       "files": [{
         "success": True,
@@ -81,7 +86,7 @@ class ImageCheck(CSRFExemptAPIView):
     else:
       res.update({"image_status": utils.const.IMAGE_EXIST,
                   "face_status": image.status})
-      if image.status == 1:
+      if image.status == utils.const.SINGLE_FACE_FOUND:
         face = utils.models.FaceInfo.objects.get(image=image)
         res.update({"score": face.face_score})
 

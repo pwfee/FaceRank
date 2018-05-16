@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.core.paginator import *
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
-from utils.models import ImageModel, FaceInfo
+from utils.models import ImageModel, FaceInfo, FacePlusPlusInfo
 from utils.const import SINGLE_FACE_FOUND
 
 
@@ -57,14 +57,23 @@ def webapp_face_list(request):
 def webapp_face_object(request, image_id):
     image = ImageModel.objects.filter(id=image_id, status=SINGLE_FACE_FOUND).order_by('?')[0]
     face = get_object_or_404(FaceInfo, image_id=image_id)
-    _all = FaceInfo.objects.all()
-
-    _count = _all.count()
     rank = FaceInfo.objects.filter(face_score__gt=face.face_score).count() + 1
-    return render(request, 'face.html', {'image': image,
-                                         'face': face,
-                                         'rank': rank,
-                                         'count': _count})
+    _all = FaceInfo.objects.all()
+    _count = _all.count()
+
+    _para = {
+        'image': image,
+        'face': face,
+        'rank': rank,
+        'count': _count
+      }
+
+    fpp_info = FacePlusPlusInfo.objects.filter(image_id=image_id).first()
+    if fpp_info:
+      fpp_info.beauty = (fpp_info.beauty_male_score + fpp_info.beauty_female_score) / 2
+      _para.update({'fpp_info': fpp_info})
+
+    return render(request, 'face.html', _para)
 
 
 def webapp_face_random(request):
@@ -72,8 +81,19 @@ def webapp_face_random(request):
   face = FaceInfo.objects.get(image=image)
   rank = FaceInfo.objects.filter(face_score__gt=face.face_score).count() + 1
   _count = FaceInfo.objects.all().count()
-  return render(request, 'face.html', {'image': image,
-                                       'face': face,
-                                       'rank': rank,
-                                       'count': _count})
+
+  _para = {
+    'image': image,
+    'face': face,
+    'rank': rank,
+    'count': _count
+  }
+
+  fpp_info = FacePlusPlusInfo.objects.filter(image_id=image).first()
+  if fpp_info:
+    fpp_info.beauty = (
+                            fpp_info.beauty_male_score + fpp_info.beauty_female_score) / 2
+    _para.update({'fpp_info': fpp_info})
+
+  return render(request, 'face.html', _para)
 

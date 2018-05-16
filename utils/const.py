@@ -102,7 +102,9 @@ mouth_lower_lip_right_contour3 = 65
 mouth_lower_lip_top = 66
 mouth_lower_lip_left_contour3 = 67
 
-
-
-
-
+# FACE_PLUS_PLUS_API
+FACE_PLUS_PLUS_ENABLE = 1
+FACE_PLUS_PLUS_API_URL = 'https://api-cn.faceplusplus.com/facepp/v3/detect'
+FACE_PLUS_PLUS_API_KEY = 'HfiLH1l-r37C_okwydEGuXx49HSGouBt'
+FACE_PLUS_PLUS_API_SECRET = 'FPO_G7hHY8S4GUefHok4MCGcr7ZrRZxv'
+FACE_PLUS_PLUS_ATTRIBUTES = 'gender,age,smiling,beauty'

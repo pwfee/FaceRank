@@ -21,29 +21,72 @@
                         </div>
                         <div class="panel-body">
                             <div class="progress">
-                                {% if face.face_score > 80 %}
+                              {% if fpp_info %}
+                                {% if fpp_info.beauty > 80 %}
                                 <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
-                                    {{ face.face_score }}
+                                    {{ fpp_info.beauty | floatformat:"2" }} / 100.0
                                 </div>
-                                {% elif face.face_score > 70 %}
+                                {% elif fpp_info.beauty > 70 %}
                                 <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
-                                    {{ face.face_score }}
+                                    {{ fpp_info.beauty | floatformat:"2" }} / 100.0
                                 </div>
                                 {% else %}
                                 <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
-                                    {{ face.face_score }}
+                                    {{ fpp_info.beauty | floatformat:"2" }} / 100.0
                                 </div>
                                 {% endif %}
+
+                              {% else %}
+
+                                {% if face.face_score > 80 %}
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                    {{ face.face_score | floatformat:"2" }} / 100.0
+                                </div>
+                                {% elif face.face_score > 70 %}
+                                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                    {{ face.face_score | floatformat:"2" }} / 100.0
+                                </div>
+                                {% else %}
+                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{ face.point }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ face.face_score }}%">
+                                    {{ face.face_score | floatformat:"2" }} / 100.0
+                                </div>
+                                {% endif %}
+
+                               {% endif %}
                             </div>
                             <table class="table table-hover">
                               <tr>
                                   <td><strong>排名</strong></td>
                                   <td><strong>{{ rank }} / {{ count }}</strong></td>
                               </tr>
+
+                              {% if fpp_info %}
                               <tr>
-                                  <td>点赞数</td>
-                                  <td> {% if face.like_count == 0 %} 无 {% else %} face.like_count {% endif %}</td>
+                                  <td>年龄</td>
+                                  <td>± {{ fpp_info.age }}</td>
                               </tr>
+
+                              <tr>
+                                  <td>颜值</td>
+                                  <td>{{ fpp_info.beauty | floatformat:"2" }} / 100.0</td>
+                              </tr>
+                              <tr>
+                                  <td>笑容指数</td>
+                                  <td>{{ fpp_info.smile }} / 100.0</td>
+                              </tr>
+                              <tr>
+                                  <td>性别</td>
+                                  <td> {% if fpp_info.gender == 0 %} 女 {% else %} 男 {% endif %}</td>
+                              </tr>
+
+                              {% else %}
+
+                              <tr>
+                                  <td>颜值-对称算法</td>
+                                  <td>{{ face.face_score | floatformat:"2" }} / 100.0</td>
+                              </tr>
+
+                              {% endif %}
                               <tr>
                                   <td>文件名</td>
                                   <td>{{ face.image.file_name }}</td>
@@ -53,15 +96,6 @@
                                   <td>{{ face.image.created_at | date:'Y-m-d H:i:s'}}</td>
                               </tr>
                             </table>
-
-                            <div class="btn-group btn-group-justified">
-                                <div class="btn-group">
-                                    <a type="button" class="btn btn-primary" href="/face/json/{{ face.name }}">Face-Info</a>
-                                </div>
-                                <div class="btn-group">
-                                    <a type="button" class="btn btn-info" href="/face/json/person/{{ face.name }}">Personal-Info</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,46 +112,4 @@
             </div>
 {% endblock %}
 
-{% block js%}
-        <script>
-            var ctx = document.getElementById("myChart");
-            var data = {
-                labels: ["Age", "smiling", "Age_range"],
-                datasets: [
-                    {
-                        label: "Average Info",
-                        backgroundColor: "rgba(179,181,198,0.2)",
-                        borderColor: "rgba(179,181,198,1)",
-                        pointBackgroundColor: "rgba(179,181,198,1)",
-                        pointBorderColor: "#fff",
-                        pointHoverBackgroundColor: "#fff",
-                        pointHoverBorderColor: "rgba(179,181,198,1)",
-                        data: [{{ face.age }}, {{ face.smiling }}, {{ face.age_range }}]
-                    },
-                    {
-                        label: "Personal Info",
-                        backgroundColor: "rgba(255,99,132,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        pointBackgroundColor: "rgba(255,99,132,1)",
-                        pointBorderColor: "#fff",
-                        pointHoverBackgroundColor: "#fff",
-                        pointHoverBorderColor: "rgba(255,99,132,1)",
-                        data: [{{ age_avg }}, {{ smiling_avg }}, {{ age_range_avg }}]
-                    }
-                ]
-            };
-            new Chart(ctx, {
-                type: "radar",
-                data: data,
-                options: {
-                        scale: {
-                            reverse: true,
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }
-                }
-            });
-        </script>
-{% endblock %}
 
