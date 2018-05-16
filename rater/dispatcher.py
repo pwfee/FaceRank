@@ -26,6 +26,7 @@ class RaterDispatcher:
         self.image.status = utils.const.SINGLE_FACE_FOUND
         shape = self.landmark_predictor(img, faces[0])
         self.facial_rater(shape)
+        self.facial_processor(img, shape)
       else:
         self.image.status = utils.const.FOUND_TOO_MANY_FACES
     else:
@@ -72,6 +73,11 @@ class RaterDispatcher:
     face_info = FaceInfo(image=self.image)
     face_info.face_score = init_score - deduction + 20
     face_info.save()
+
+  def facial_processor(self, img, shape):
+    for i in range(68):
+      cv2.circle(img, (shape.part(i).x, shape.part(i).y), 5, (0, 255, 0), -1, 8)
+    cv2.imwrite(self.img_path + '.detected.jpg', img)
 
 
 class FacePlusPlusRaterDispatcher:

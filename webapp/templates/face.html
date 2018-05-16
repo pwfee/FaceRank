@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}<title xmlns="http://www.w3.org/1999/html">ID-{{ image.id }}-FaceRank-Beta</title>{% endblock %}
+{% block title %}<title xmlns="http://www.w3.org/1999/html">ID-{{ image.id }}-人脸颜值评分系统-Beta</title>{% endblock %}
 
 {% block body %}
-            <div class="alert alert-success" role="alert">The images only use to collect facial data, Please do not use in commercial(other) ways!!!</div>
+            <div class="alert alert-success" role="alert">以下图片仅用于收集面部数据，请勿以商业方式使用！若以下照片令您感到不安，请联系本站管理员。</div>
             <div class="row">
                 <div class="col-md-3">
                     <div class="panel panel-primary">
@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             <h3 class="panel-title">图片信息</h3>
@@ -99,13 +99,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="panel panel-warning">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Radar Comparison</h3>
+                            <h3 class="panel-title">评测编号 #{{ image.id }}</h3>
                         </div>
                         <div class="panel-body">
-                            <canvas id="myChart" width="10" height="10"></canvas>
+                            <div name="image" style="text-align:center;"><img src="/static/upload/{{ image.file_name }}.detected.jpg" height="384" width="288" class="img-thumbnail"></div>
                         </div>
                     </div>
                 </div>
