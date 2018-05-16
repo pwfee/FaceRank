@@ -5,14 +5,12 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Age ± </th>
-                <th>Gender</th>
-                <th>Race</th>
-                <th>Glass</th>
-                <th>Smile_Index</th>
-                <th>Point</th>
-                <th>Rank (Total:{{ all }})</th>
+                <th>编号</th>
+                <th>点赞数</th>
+                <th>文件名</th>
+                <th>上传时间</th>
+                <th>分数</th>
+                <th>排名 (总共:{{ all }})</th>
 
             </tr>
         </thead>
@@ -20,27 +18,13 @@
         {% for face in faces %}
             <tr>
                 <td><a href="../face/{{ face.image_id }}"> {{ face.image_id }} </a></td>
-                <td>{{ face.age  }} ± {{ face.age_range }}</td>
                 <td>
-                    {% if face.gender == 1 %} Male
-                    {% else %} Female
+                    {% if face.like_count == 0 %} 无
+                    {% else %} face.like_count
                     {% endif %}
-                    ({{ face.gender_confidence }} %)
                 </td>
-                <td>
-                    {% if face.race == 1 %} Asian
-                    {% elif face.race == 2 %} White
-                    {% else %} Black
-                    {% endif %}
-                    ({{ face.race_confidence }} %)
-                </td>
-                <td>
-                    {% if face.glass == 1 %} Yes
-                    {% else %} No
-                    {% endif %}
-                    ({{ face.glass_confidence }} %)
-                </td>
-                <td>{{ face.smiling }}</td>
+                <td>{{ face.image.file_name }}</td>
+                <td>{{ face.image.created_at | date:'Y-m-d H:i:s'}}</td>
                 <td>{{ face.face_score }}</td>
                 <td>{{ forloop.counter }}</td>
             </tr>
@@ -50,15 +34,15 @@
 
 
     <div style="text-align: left">
-         <span>Total {{ faces.paginator.count }}</span> info, <span>{{ faces.paginator.num_pages }}</span> pages
+         <span>总共 {{ faces.paginator.count }}</span> 条记录, <span>{{ faces.paginator.num_pages }}</span> 页
     </div>
 
     <div style="text-align: right">
         <ul class="pagination">
                 {% if faces.has_previous %}
-                <li><a href="?page={{ faces.previous_page_number }}&limit={{ limit }}">Previous</a></li>
+                <li><a href="?page={{ faces.previous_page_number }}&limit={{ limit }}">上一页</a></li>
                 {% endif %}
-                <li><a href="?page=1&limit={{ limit }}">First</a></li>
+                <li><a href="?page=1&limit={{ limit }}">首页</a></li>
         {% for page_number in page_range %}
             {% ifequal page_number  faces.number %}
                 <li class="active"><a href="?page={{ page_number }}&limit={{ limit }}">{{ page_number }}</a></li>
@@ -66,9 +50,9 @@
                 <li><a href="?page={{ page_number }}&limit={{ limit }}">{{ page_number }}</a></li>
             {% endifequal %}
         {% endfor %}
-                <li><a href="?page={{ faces.paginator.num_pages }}&limit={{ limit }}">Last</a></li>
+                <li><a href="?page={{ faces.paginator.num_pages }}&limit={{ limit }}">未页</a></li>
                 {% if faces.has_next %}
-                <li><a href="?page={{ faces.next_page_number }}&limit={{ limit }}">Next</a></li>
+                <li><a href="?page={{ faces.next_page_number }}&limit={{ limit }}">下一页</a></li>
                 {% endif %}
         </ul>
     </div>

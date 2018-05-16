@@ -7,7 +7,7 @@
                 <div class="col-md-3">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Image #{{ image.id }}</h3>
+                            <h3 class="panel-title">评测编号 #{{ image.id }}</h3>
                         </div>
                         <div class="panel-body">
                             <div name="image" style="text-align:center;"><img src="/static/upload/{{ image.file_name }}" height="384" width="288" class="img-thumbnail"></div>
@@ -17,7 +17,7 @@
                 <div class="col-md-5">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Image - Info</h3>
+                            <h3 class="panel-title">图片信息</h3>
                         </div>
                         <div class="panel-body">
                             <div class="progress">
@@ -37,28 +37,20 @@
                             </div>
                             <table class="table table-hover">
                               <tr>
-                                  <td><strong>Rank</strong></td>
+                                  <td><strong>排名</strong></td>
                                   <td><strong>{{ rank }} / {{ count }}</strong></td>
                               </tr>
                               <tr>
-                                  <td>Age</td>
-                                  <td>{{ face.age }} ± {{ face.age_range }}</td>
+                                  <td>点赞数</td>
+                                  <td> {% if face.like_count == 0 %} 无 {% else %} face.like_count {% endif %}</td>
                               </tr>
                               <tr>
-                                  <td>Gender</td>
-                                  <td>{% if face.gender == 0 %}Female{% else %}Male{% endif %} ({{ face.gender_confidence }} %)</td>
+                                  <td>文件名</td>
+                                  <td>{{ face.image.file_name }}</td>
                               </tr>
                               <tr>
-                                  <td>Glass</td>
-                                  <td>{% if face.glass == 0 %}No{% else %}Yes{% endif %} ({{ face.glass_confidence }} %)</td>
-                              </tr>
-                              <tr>
-                                  <td>Race</td>
-                                  <td>{% if face.race == 1 %}Asian{% elif face.race == 2 %}White{% else %}Black{% endif %} ({{ face.race_confidence }} %)</td>
-                              </tr>
-                              <tr>
-                                  <td>Simle Index</td>
-                                  <td>{{ face.smiling }}</td>
+                                  <td>上传时间</td>
+                                  <td>{{ face.image.created_at | date:'Y-m-d H:i:s'}}</td>
                               </tr>
                             </table>
 
