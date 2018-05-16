@@ -8,13 +8,12 @@
 <body>
 
 <div class="container">
-    <h1>jQuery File Upload Demo</h1>
-    <h2 class="lead">Basic Plus UI version</h2>
+    <h1>准备好接受现实的挑战了吗？</h1>
+    <h2 class="lead">让我们一起出发！</h2>
     <br>
     <blockquote>
-        <p>File Upload widget with multiple file selection, drag&amp;drop support, progress bars, validation and preview images, audio and video for jQuery.<br>
-        Supports cross-domain, chunked and resumable file uploads and client-side image resizing.<br>
-        Works with any server-side platform (PHP, Python, Ruby on Rails, Java, Node.js, Go etc.) that supports standard HTML form file uploads.</p>
+        <p>首先准备一张让你自豪的正面个人照片，记住是单人照哦！如果系统发现你上传的是多人照片，它会选择沉默，机智的它不会被你骗了。<br>
+        点击“添加文件”按钮，将您的照片放入我们的系统。再按“开始上传”键，静候片刻，心诚则灵。如果忽然你拒绝认清现实，选择“取消上传”按钮，但您真的想好了吗？您不想知道真相了吗？</p>
     </blockquote>
     <br>
     <!-- The file upload form used as target for the file upload widget -->
@@ -25,16 +24,16 @@
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
-                    <span>Add files...</span>
+                    <span>添加文件</span>
                     <input type="file" name="image" multiple>
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
+                    <span>开始上传</span>
                 </button>
                 <button type="reset" class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
+                    <span>取消上传</span>
                 </button>
                 <!-- The global file processing state -->
                 <span class="fileupload-process"></span>
@@ -59,13 +58,12 @@
         </div>
         <div class="panel-body">
             <ul>
-                <li>The maximum file size for uploads in this demo is <strong>999 KB</strong> (default file size is unlimited).</li>
-                <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed in this demo (by default there is no file type restriction).</li>
-                <li>Uploaded files will be deleted automatically after <strong>5 minutes or less</strong> (demo files are stored in memory).</li>
-                <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage (see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support">Browser support</a>).</li>
-                <li>Please refer to the <a href="https://github.com/blueimp/jQuery-File-Upload">project website</a> and <a href="https://github.com/blueimp/jQuery-File-Upload/wiki">documentation</a> for more information.</li>
-                <li>Built with the <a href="http://getbootstrap.com/">Bootstrap</a> CSS framework and Icons from <a href="http://glyphicons.com/">Glyphicons</a>.</li>
-            </ul>
+                <li>无论您是瓜子脸还是大饼脸，系统规定的最大照片规格为 <strong>999 KB</strong></li>
+                <li>傲娇的系统程序说他只要<strong>JPG, GIF, PNG</strong>等格式</li>
+                <li>如果最后系统给你的分数让你不服，请 <strong>原谅</strong>它，它只是个 <strong>孩子</strong></li>
+                <li>“卖什么萌，真可耻!出分数的时候没见你卖萌！”<strong>忽略</strong>它</li>
+                <li>如果你感到分数出乎意料的高,放松,这就是<strong>天意</strong>,你也完全可以不靠脸吃饭。</li>
+                <li>最后声明，此系统只管出分数，掐着脖子也要说大实话，但请不要忘记我们的身份，我们可是<strong>社会主义接班人</strong>呐！</li>            </ul>
         </div>
     </div>
 </div>
@@ -108,7 +106,7 @@
         <td>
             <span class="preview">
                 [% if (file.thumbnailUrl) { %]
-                    <a href="[%=file.url%]" title="[%=file.name%]" download="[%=file.name%]" data-gallery><img src="[%=file.thumbnailUrl%]" height="80"></a>
+                    <a href="[%=file.url%]" title="[%=file.name%]"><img src="[%=file.thumbnailUrl%]" height="80"></a>
                 [% } %]
             </span>
         </td>
