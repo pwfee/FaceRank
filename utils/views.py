@@ -57,11 +57,36 @@ class ImageUploadAPIView(CSRFExemptAPIView):
       "files": [{
         "success": True,
         "name": img_name,
+        "image_id": image.id,
         "msg": utils.const.IMAGE_UPLOAD_SUCCESS,
-        "url": "http://" + request.get_host() + "/static/upload/" + img_name,
+        "url": "http://" + request.get_host() + "/face/" + str(image.id),
+        "type": "image/png",
         "thumbnailUrl": "http://" + request.get_host() + "/static/upload/" + img_name
       }]
     })
+
+
+class ImageCheck(CSRFExemptAPIView):
+  request_parsers = ()
+
+  def get(self, request):
+    image_id = request.GET.get('id', None)
+
+    image = utils.models.ImageModel.objects.filter(id=image_id).first()
+
+    res = {}
+
+    if not image:
+      res.update({"image_status": utils.const.IMAGE_NOT_FOUND})
+    else:
+      res.update({"image_status": utils.const.IMAGE_EXIST,
+                  "face_status": image.status})
+      if image.status == 1:
+        face = utils.models.FaceInfo.objects.get(image=image)
+        res.update({"score": face.face_score})
+
+    return self.response(res)
+
 
 
 

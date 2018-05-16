@@ -11,13 +11,15 @@ IMAGE_UPLOAD_SUCCESS = "success"
 LANDMARK_PREDICTOR_MODEL_NAME = 'shape_predictor_68_face_landmarks.dat'
 LANDMARK_PREDICTOR_MODEL_PATH = os.path.join(settings.MODEL_DIR,
                                              LANDMARK_PREDICTOR_MODEL_NAME)
-
 # FACE_DETECT
 FACE_NOT_FOUND = 0
 SINGLE_FACE_FOUND = 1
 FOUND_TOO_MANY_FACES = 2
 JUDGE_INNER_ERROR = 3
 
+# IMAGE_STATUS
+IMAGE_NOT_FOUND = "image not exist"
+IMAGE_EXIST = "success"
 
 # FACE_LAND_MARK_NUM
 contour_left1 = 0
