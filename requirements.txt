@@ -1,4 +1,10 @@
+celery
+cv2
+dlib
 Django==1.11.11
 djangorestframework
-celery
 django-redis
+matplotlib
+opencv-python
+pillow
+requests
