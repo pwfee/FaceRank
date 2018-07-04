@@ -1,5 +1,5 @@
 celery
-cv2
+opencv-python
 dlib
 Django==1.11.11
 djangorestframework
